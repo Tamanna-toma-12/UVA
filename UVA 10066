@@ -1,0 +1,55 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define optimize() ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+#define ll  long long
+#define pb push_back
+#define all(v) v.begin(),v.end()
+#define rall(v) v.rbegin(),v.rend()
+#define  endl "\n"
+#include<ext/pb_ds/assoc_container.hpp>
+#define lcm(a,b) a/__gcd(a,b)*b
+/*using namespace __gnu_pbds;
+//typedef tree< long long, null_type, less<long long>, rb_tree_tag,tree_order_statistics_node_update >ordered_set;//for set
+///less er jaigay greater dile boro theke choto set
+typedef tree<long long,null_type,less_equal<long long>,rb_tree_tag,tree_order_statistics_node_update>ordered_set;//for multiset
+///less er jaigay greater dile boro theke choto multiset
+///cout<<x(name of set or multiset).order_of_key(-5(parameter))<<endl;//number of items in a set that are stricly smaller than
+///our item*/
+const ll mx=1e3;
+int dx[]={0,0,1,-1};
+int dy[]={1,-1,0,0};
+ll dp[110][110];
+ll solve(int i,int j,vector<ll>&v1,vector<ll>&v2,int n1,int n2){
+    if(i>=n1||j>=n2)return 0;
+    if(dp[i][j]!=-1)return dp[i][j];
+    ll ret1=0,ret2=0;
+    if(v1[i]==v2[j]){
+        return dp[i][j]=solve(i+1,j+1,v1,v2,n1,n2)+1;
+    }
+    else{
+        ret1=solve(i+1,j,v1,v2,n1,n2);
+        ret2=solve(i,j+1,v1,v2,n1,n2);
+        return dp[i][j]=max(ret1,ret2);
+    }
+
+}
+int main()
+{
+    optimize();
+    int n1,n2;
+    int c=1;
+    while(cin>>n1>>n2)
+    {
+        if(n1==0&&n2==0)break;
+       vector<ll>v1(n1);
+       for(auto &u:v1)cin>>u;
+       vector<ll>v2(n2);
+       for(auto &u:v2)cin>>u;
+        memset(dp,-1,sizeof(dp));
+        ll ans=solve(0,0,v1,v2,n1,n2);
+        cout<<"Twin Towers #"<<c<<endl;
+        cout<<"Number of Tiles : "<<ans<<endl<<endl;
+        c++;
+    }
+    return 0;
+}
