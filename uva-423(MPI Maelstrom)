@@ -1,0 +1,74 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define  optimize()  ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+#define  ll          long long int
+#define  ull         unsigned long long int
+#define  pb          push_back
+#define  all(v)      v.begin(),v.end()
+#define  rall(v)     v.rbegin(),v.rend()
+#define  endl        "\n"
+#define  lcm(a,b)    a/__gcd(a,b)*b
+#define  mod         (ll)1e9+7;
+#define  gcd(a,b)    __gcd(a,b)
+#define  Max(a,b,c)  max(max(a,b),c)
+#define  Min(a,b,c)  min(min(a,b),c)
+#define  pii         pair<ll,ll>
+#define  S           second
+#define  F           first
+#define  inf         1e10
+void answer();
+const ll mx=1e6+123;
+int dx[]={0,0,1,-1};
+int dy[]={1,-1,0,0};
+int main()
+{
+    optimize();
+     int tt=1;
+  //  cin>>tt;
+   // ll tc=tt;
+     while(tt--){
+   // cout<<"Case "<<tc-tt<<": ";
+        answer();
+     }
+     return 0;
+}
+void answer(){
+   ll n;
+   cin>>n;
+   n++;
+  // ll adj[n][n];
+   vector<pii>adj[n];
+   for(int i=1;i<n;i++){
+      for(int j=1;j<i;j++){
+         ll w;
+         string s;
+         cin>>s;
+       if(s!="x"){
+            w=0;
+            for(int i=0;i<s.size();i++)w=w*10+(s[i]-'0');
+           adj[i].pb({j,w});
+           adj[j].pb({i,w});
+       }
+      }
+   }
+   //for(int i=1;i<n;i++)adj[i][i]=0;
+   vector<ll>dis(n,inf);
+   dis[1]=0;
+   priority_queue<pii,vector<pii>,greater<pii>>q;
+   q.push({0,1});
+   //ll x=10;
+   while(!q.empty()){
+      ll node=q.top().S;
+      //cout<<node<<endl;
+      q.pop();
+      for(auto u:adj[node]){
+         if(dis[node]+u.S<dis[u.F]){
+            dis[u.F]=dis[node]+u.S;
+            q.push({dis[u.F],u.F});
+         }
+      }
+   }
+  ll ans=0;
+  for(int i=1;i<n;i++)ans=max(ans,dis[i]);
+  cout<<ans<<endl;
+}
